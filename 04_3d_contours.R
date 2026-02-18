@@ -3,8 +3,8 @@ library(geometry)
 library(akima)
 library(abind)
 
-# Requires objects from 01_threshold_gpd_fit.R: data
-# Requires objects from 02_simulation.R: simulate_structured_storms, best_fit,
+# Requires objects from 01_evgam_fit.R: data
+# Requires objects from 02_simple_simulation.R: simulate_structured_storms, best_fit,
 #   fit_gpd, fit_ald, exceedance_rate, mean_cluster_size
 
 # -----------------------------------------------------------------------------

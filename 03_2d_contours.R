@@ -1,7 +1,7 @@
 library(ggplot2)
 library(viridis)
 
-# Requires objects from 01_threshold_gpd_fit.R: data
+# Requires objects from 01_evgam_fit.R: data
 
 # -----------------------------------------------------------------------------
 # 1. CORE FUNCTIONS

@@ -2,7 +2,7 @@ library(MASS)
 library(fitdistrplus)
 library(ggplot2)
 
-# Requires objects from 01_threshold_gpd_fit.R:
+# Requires objects from 01_evgam_fit.R:
 #   data, fit_ald, fit_gpd, excess_df
 
 # -----------------------------------------------------------------------------
