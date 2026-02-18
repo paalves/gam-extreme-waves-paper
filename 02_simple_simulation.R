@@ -140,7 +140,7 @@ simulate_structured_storms <- function(n_total, data_ref, body_fit, gpd_fit, ald
     raw_body       <- sample_body(n_calm_needed)
     invalid_indices <- which(raw_body > calm_thresh)
     iter <- 0
-    while (length(invalid_indices) > 0 && iter < 100) {
+    while (length(invalid_indices) > 0 && iter < 500) {
       raw_body[invalid_indices] <- sample_body(length(invalid_indices))
       invalid_indices <- invalid_indices[raw_body[invalid_indices] > calm_thresh[invalid_indices]]
       iter <- iter + 1
