@@ -318,7 +318,7 @@ simulated_data <- simulate_structured_storms(n_sim, data, best_fit, fit_gpd, fit
   print(paste("Simulated exceedance rate:", round(mean(simulated_data$extreme), 4)))
   print(paste("Mean Cluster Duration Used:", round(mean_cluster_size, 2)))
 
-  ggplot(simulated_data, aes(y = hs, color = extreme)) +
+  ggplot(simulated_data, aes(x=1:nrow(simulated_data), y = hs, color = extreme)) +
     geom_line() +
     theme_minimal() +
     labs(title = "Subset of Simulated Time Series (First 500 hours)", x = "Time", y = "Hs")
@@ -976,16 +976,13 @@ contour_mesh_sim$z <- pmax(0, contour_mesh_sim$z)
 # 2. Build the Plotly Visualization
 fig_sim <- plot_ly()
 
-# Add Simulated Data Points (Sampling for performance)
-sub_idx_sim <- sample(1:nrow(simulated_data), min(nrow(simulated_data), 20000))
-
 fig_sim <- fig_sim %>% add_trace(
-  x = simulated_data$Cspd[sub_idx_sim], 
-  y = simulated_data$angularDifference[sub_idx_sim], 
-  z = simulated_data$hs[sub_idx_sim],
+  x = simulated_data$Cspd, 
+  y = simulated_data$angularDifference, 
+  z = simulated_data$hs,
   type = "scatter3d", 
   mode = "markers",
-  marker = list(size = 2, opacity = 0.5, color = "gray"),
+  marker = list(size = 2, opacity = 0.8, color = "black"),
   name = "Simulated data"
 )
 
@@ -1058,8 +1055,8 @@ library(abind)    # For array handling
 # -----------------------------------------------------------------------------
 # 1. SETUP SIMULATION PARAMETERS
 # -----------------------------------------------------------------------------
-N_sims <- 100          # Number of simulations (Increase to 100+ for smoother quantiles)
-grid_res <- 100       # High resolution for smoother interpolation (100x100)
+N_sims <- 50          # Number of simulations (Increase to 100+ for smoother quantiles)
+grid_res <- 75       # High resolution for smoother interpolation (100x100)
 
 # Define a fixed grid to aggregate all simulations onto
 # We add a small buffer to the max Cspd to ensure we capture the full tail
@@ -1249,3 +1246,4 @@ fig_upper_smooth <- create_smooth_mesh_plot(
   list(c(0, "darkred"), c(1, "orange"))
 )
 fig_upper_smooth
+
