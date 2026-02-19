@@ -123,7 +123,7 @@ p_clean <- ggplot() +
   coord_cartesian(ylim = c(y_min, y_max)) +
   labs(
     title    = "Return level plot",
-    subtitle = sprintf("Shading = 95%% CI (delta method)  \u2022  Reference Hs = %.2f m", hs_ref),
+    subtitle = sprintf("Shading = 95%% CI (delta method)  \u2022  Max observed Hs = %.2f m", hs_ref),
     x = "Return period (years)", y = "Hs [m]"
   ) +
   theme_rv()
