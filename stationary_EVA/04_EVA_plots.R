@@ -10,6 +10,8 @@ library(evd)
 col_gpd <- "#2166AC"
 col_gev <- "#D6604D"
 
+excesses <- excesses[excesses > 0]
+
 theme_rv <- function() {
   theme_bw(base_size = 14) +
     theme(
@@ -156,11 +158,10 @@ sg_hi   <- sg   + 1.96 * fit_gev$std.err["scale"]
 mu_lo   <- mu_g - 1.96 * fit_gev$std.err["loc"]
 mu_hi   <- mu_g + 1.96 * fit_gev$std.err["loc"]
 
-excesses_declust <- cluster_maxima - chosen_threshold
 
 # QQ — GPD
-n1  <- length(excesses_declust)
-qq1 <- ggplot(data.frame(emp = sort(excesses_declust),
+n1  <- length(excesses)
+qq1 <- ggplot(data.frame(emp = sort(excesses),
                           th  = gpd_quantiles((1:n1 - 0.5)/n1, xi1, sigma1)),
               aes(th, emp)) +
   geom_abline(slope = 1, intercept = 0, color = "grey60", linetype = "dashed") +
@@ -191,12 +192,12 @@ qq3 <- ggplot(data.frame(emp = sort(block_maxima),
   theme_diag()
 
 # Density — GPD
-x1    <- seq(0, max(excesses_declust), length.out = 300)
+x1    <- seq(0, max(excesses), length.out = 300)
 dens1 <- (1/sigma1) * (1 + xi1 * x1 / sigma1)^(-(1/xi1 + 1))
 d1 <- ggplot() +
-  geom_histogram(data = data.frame(x = excesses_declust),
+  geom_histogram(data = data.frame(x = excesses),
                  aes(x, after_stat(density)),
-                 breaks = seq(min(excesses_declust), max(excesses_declust), length.out = 26),
+                 breaks = seq(min(excesses), max(excesses), length.out = 26),
                  fill = col_gpd, alpha = 0.25, color = "white") +
   geom_line(data = data.frame(x = x1, d = dens1), aes(x, d),
             color = col_gpd, linewidth = 1.2) +

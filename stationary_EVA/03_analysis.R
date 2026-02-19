@@ -1,6 +1,7 @@
 library(data.table)
 library(POT)
 library(evd)
+library(extRemes)
 
 # ============================================================================
 # SETUP
@@ -23,32 +24,17 @@ cat(sprintf("Threshold: %.2f m (Q96) | Total obs: %d | Exceedances: %d (%.2f%%)\
 # ============================================================================
 # DECLUSTERING
 # ============================================================================
-decluster_runs <- function(x, threshold, run_length) {
-  exceed_indices <- which(x > threshold)
-  if (length(exceed_indices) == 0) return(list(n_clusters = 0, cluster_indices = integer(0)))
+clusters       <- decluster(data$hs, r=72, "runs", threshold=chosen_threshold)
+excesses <- clusters - chosen_threshold
 
-  gaps       <- diff(exceed_indices)
-  cluster_id <- cumsum(c(TRUE, gaps > run_length))
-  cluster_indices <- sapply(unique(cluster_id), function(i) {
-    members <- exceed_indices[cluster_id == i]
-    members[which.max(x[members])]
-  })
-  list(n_clusters = length(cluster_indices), cluster_indices = cluster_indices)
-}
-
-clusters       <- decluster_runs(hs, chosen_threshold, run_length)
-cluster_maxima <- hs[clusters$cluster_indices]
-
-cat(sprintf("Independent events: %d | Extremal index: %.4f\n",
-            clusters$n_clusters,
-            clusters$n_clusters / sum(hs > chosen_threshold)))
+print(excesses)
 
 # ============================================================================
 # MODEL FITTING
 # ============================================================================
 
 # --- GPD on declustered cluster maxima ---
-fit_declust <- fpot(cluster_maxima, threshold = chosen_threshold, model = "gpd")
+fit_declust <- fpot(excesses, threshold = 0, model = "gpd")
 
 cat("\n--- GPD Declustered (delta method CIs) ---\n")
 cat(sprintf("Scale: %.4f (SE: %.4f) | 95%% CI: [%.4f, %.4f]\n",
@@ -88,8 +74,8 @@ cat(sprintf("Shape: %.4f (SE: %.4f) | 95%% CI: [%.4f, %.4f]\n",
 # RETURN VALUE ESTIMATION — delta method with all three fixes applied
 # ============================================================================
 n_years        <- length(hs) / obs_per_year
-lambda_declust <- clusters$n_clusters / n_years   # estimated rate (events/year)
-
+n_clusters     <- length(excesses[excesses > 0])
+lambda_declust <- n_clusters / n_years
 # FIX 2: Poisson variance of lambda estimate
 var_lambda <- lambda_declust / n_years
 

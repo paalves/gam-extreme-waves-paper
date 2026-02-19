@@ -89,7 +89,7 @@ p1 <- ggplot(cluster_results, aes(x = threshold, y = n_clusters,
   geom_point(size = 2) +
   geom_vline(xintercept = chosen_threshold, linetype = "dashed", color = "blue", linewidth = 1) +
   annotate("text", x = chosen_threshold, y = max(cluster_results$n_clusters), 
-           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, color = "blue") +
+           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, fontface="bold", color = "blue") +
   scale_color_viridis_d(name = "Run length\n(hours)") +
   labs(title = "Number of independent storm events",
        subtitle = "Effect of threshold and run length on identified clusters",
@@ -104,9 +104,9 @@ p2 <- ggplot(cluster_results, aes(x = threshold, y = cluster_ratio,
   geom_point(size = 2) +
   geom_vline(xintercept = chosen_threshold, linetype = "dashed", color = "blue", linewidth = 1) +
   annotate("text", x = chosen_threshold, y = max(cluster_results$cluster_ratio), 
-           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, color = "blue") +
+           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, fontface="bold", color = "blue") +
   scale_color_viridis_d(name = "Run length\n(hours)") +
-  labs(title = "Extremal index",
+  labs(title = "Extremal index change",
        subtitle = "Ratio of independent events to total exceedances",
        x = expression(paste("Threshold ", italic(u), " (m)")),
        y = "Extremal index (θ)") +
@@ -123,7 +123,7 @@ p3 <- ggplot(cluster_results, aes(x = threshold, y = shape,
   geom_vline(xintercept = chosen_threshold, linetype = "dashed", color = "blue", linewidth = 1) +
   annotate("text", x = chosen_threshold, 
            y = max(cluster_results$shape + 1.96 * cluster_results$shape_se, na.rm = TRUE), 
-           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, color = "blue") +
+           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, fontface="bold", color = "blue") +
   scale_color_viridis_d(name = "Run length\n(hours)") +
   scale_fill_viridis_d(name = "Run length\n(hours)") +
   labs(title = "Shape parameter stability",
@@ -142,10 +142,10 @@ p4 <- ggplot(cluster_results, aes(x = threshold, y = scale,
   geom_vline(xintercept = chosen_threshold, linetype = "dashed", color = "blue", linewidth = 1) +
   annotate("text", x = chosen_threshold, 
            y = max(cluster_results$scale + 1.96 * cluster_results$scale_se, na.rm = TRUE), 
-           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, color = "blue") +
+           label = sprintf("Q96 = %.2f m", chosen_threshold), hjust = -0.1, size = 6, fontface="bold", color = "blue") +
   scale_color_viridis_d(name = "Run length\n(hours)") +
   scale_fill_viridis_d(name = "Run length\n(hours)") +
-  labs(title = "Scale parameter with declustering",
+  labs(title = "Scale parameter stability",
        subtitle = "Effect of run length on GPD scale parameter estimates",
        x = expression(paste("Threshold ", italic(u), " (m)")),
        y = expression(paste("Scale parameter ", sigma))) +
