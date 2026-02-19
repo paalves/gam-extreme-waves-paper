@@ -5,7 +5,9 @@ library(extRemes)
 # -----------------------------------------------------------------------------
 # 1. LOAD DATA
 # -----------------------------------------------------------------------------
-data <- fread("data2024.csv")
+#data <- fread("C:/these_docs/data2024.csv")
+data <- fread("C:/Users/minim/Documents/teletravail/data2024.csv")
+
 data$angularDifference <- data$angleDiff
 
 # -----------------------------------------------------------------------------
